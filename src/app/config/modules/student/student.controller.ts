@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { studentServices } from "./student.service";
 
-export const createStudent = async (req: Request, res: Response) => {
+const createStudent = async (req: Request, res: Response) => {
   try {
-    const body = req.body;
-    const result = await studentServices.createStudentIntoDb(body);
+    const { student } = req.body;
+    const result = await studentServices.createStudentIntoDb(student);
     res.status(200).json({
       status: true,
       message: "success",
@@ -15,6 +15,20 @@ export const createStudent = async (req: Request, res: Response) => {
   }
 };
 
+const getAllStudents = async (req: Request, res: Response) => {
+  try {
+    const result = await studentServices.getAllStudentFromDb();
+    res.status(200).json({
+      success: true,
+      message: "get all students successfully",
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const studentControllers = {
   createStudent,
+  getAllStudents,
 };
