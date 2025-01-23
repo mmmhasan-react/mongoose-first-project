@@ -1,7 +1,7 @@
 export type Gurdian = {
   fatherName: string;
   fatherOccupation: string;
-  fatherContactaNumber: string;
+  fatherContactNumber: string;
 
   motherName: string;
   motherOccupation: string;
@@ -26,12 +26,12 @@ export type TStudent = {
   email: string;
   contactNumber: string;
   emergencyContactNumber: string;
-  avater?: string;
+  avatar?: string;
   blood_groups?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
   presentAddress: string;
   permanentAddress: string;
-  gurdian: Gurdian;
-  localGurdian: LocalGurdian;
+  guardian: Gurdian;
+  localGuardian: LocalGurdian;
   profileImg?: string;
   isActive: "active" | "inactive";
 };
