@@ -83,7 +83,7 @@ const LocalGuardianSchema = new Schema<TLocalGurdian>({
   },
 });
 
-const StudentSchema = new Schema<TStudent, studentMethods, StudentModels>({
+const StudentSchema = new Schema<TStudent, StudentModels>({
   id: {
     type: String,
     required: [true, "Student ID is required"],
@@ -161,9 +161,16 @@ const StudentSchema = new Schema<TStudent, studentMethods, StudentModels>({
     default: "active",
   },
 });
-StudentSchema.methods.isUserExists = async function (id: string) {
-  const existUser = await StudentModel.findOne({ id });
-  return existUser;
+
+// StudentSchema.methods.isUserExists = async function (id: string) {
+//   const existUser = await StudentModel.findOne({ id });
+//   return existUser;
+// };
+
+//static
+StudentSchema.statics.isUserExists = async function (id: string) {
+  const existingUser = await StudentModel.findOne({ id });
+  return existingUser;
 };
 export const StudentModel = model<TStudent, StudentModels>(
   "Student",

@@ -4,14 +4,19 @@ import { StudentModel } from "./student.model";
 // import { StudentSchemaWithZodValidation } from "./student.validation_zod";
 
 const createStudentIntoDb = async (student: TStudent) => {
-  // const result = await StudentModel.create(student);
-
-  //instance
-  const studentInstance = new StudentModel(student);
-  if (await studentInstance.isUserExists(student.id)) {
+  //sTatic
+  if (await StudentModel.isUserExists(student.id)) {
     throw new Error("student allready exists");
   }
-  const result = await studentInstance.save();
+  const result = await StudentModel.create(student);
+
+  // //instance
+  // const studentInstance = new StudentModel(student);
+  // if (await studentInstance.isUserExists(student.id)) {
+  //   throw new Error("student allready exists");
+  // }
+  // const result = await studentInstance.save();
+
   return result;
 };
 

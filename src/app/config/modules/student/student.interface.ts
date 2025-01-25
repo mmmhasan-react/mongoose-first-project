@@ -39,7 +39,13 @@ export type TStudent = {
 };
 
 //custom method
-export type studentMethods = {
-  isUserExists(id: String): Promise<TStudent | null>;
-};
-export type StudentModels = Model<TStudent, object, studentMethods>;
+// export type studentMethods = {
+//   isUserExists(id: String): Promise<TStudent | null>;
+// };
+// export type StudentModels = Model<TStudent, object, studentMethods>;
+//
+
+//Statics
+export interface StudentModels extends Model<TStudent> {
+  isUserExists(id: string): Promise<TStudent | null>;
+}
