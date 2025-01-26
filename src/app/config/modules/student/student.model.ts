@@ -166,6 +166,10 @@ const StudentSchema = new Schema<TStudent, StudentModels>({
     },
     default: "active",
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // StudentSchema.methods.isUserExists = async function (id: string) {
@@ -182,8 +186,17 @@ StudentSchema.pre("save", async function (next) {
   next();
 });
 
+StudentSchema.post("save", function (doc, next) {
+  doc.password = "";
+  next();
+});
+
 StudentSchema.post("save", function () {
   console.log(this, "post hook: will save data");
+});
+
+StudentSchema.pre("find", function (next) {
+  console.log(this);
 });
 
 //static
