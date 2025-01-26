@@ -75,6 +75,7 @@ const StudentSchemaWithZodValidation = z.object({
   localGuardian: LocalGuardianSchema,
   profileImg: z.string().optional(), // Optional field for profile image
   isActive: z.enum(["active", "inactive"]).default("active"),
+  isDleted: z.boolean(),
 });
 
 export { StudentSchemaWithZodValidation };

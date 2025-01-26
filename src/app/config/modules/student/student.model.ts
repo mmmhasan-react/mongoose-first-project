@@ -191,12 +191,14 @@ StudentSchema.post("save", function (doc, next) {
   next();
 });
 
-StudentSchema.post("save", function () {
-  console.log(this, "post hook: will save data");
-});
+// StudentSchema.post("save", function () {
+//   console.log(this, "post hook: will save data");
+// });
 
 StudentSchema.pre("find", function (next) {
-  console.log(this);
+  // console.log(this);
+  this.find({ isDeleted: { $ne: true } });
+  next();
 });
 
 //static
