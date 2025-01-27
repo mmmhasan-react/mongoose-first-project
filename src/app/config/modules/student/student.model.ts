@@ -200,6 +200,11 @@ StudentSchema.pre("find", function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
+StudentSchema.pre("find", function (next) {
+  // console.log(this);
+  this.findOne({ isDeleted: { $ne: true } });
+  next();
+});
 
 //static
 StudentSchema.statics.isUserExists = async function (id: string) {
