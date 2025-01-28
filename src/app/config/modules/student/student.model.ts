@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
+import mongoose from "mongoose";
 import {
-  studentMethods,
   StudentModels,
   TGurdian,
   TLocalGurdian,
@@ -8,8 +8,8 @@ import {
   TUserName,
 } from "./student.interface";
 import validator from "validator";
-import bcrypt from "bcrypt";
 import config from "../..";
+import bcrypt from "bcrypt";
 
 const UserNameSchema = new Schema<TUserName>({
   firstName: {
@@ -92,6 +92,12 @@ const StudentSchema = new Schema<TStudent, StudentModels>({
     // unique: true,
     // autoIndex: true,
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: [true, "user is required"],
+    unique: true,
+    ref: "User",
+  },
   password: {
     type: String,
     required: [true, "password must be required"],
@@ -157,14 +163,6 @@ const StudentSchema = new Schema<TStudent, StudentModels>({
   },
   profileImg: {
     type: String,
-  },
-  isActive: {
-    type: String,
-    enum: {
-      values: ["active", "inactive"],
-      message: "Status must be either active or inactive",
-    },
-    default: "active",
   },
   isDeleted: {
     type: Boolean,
