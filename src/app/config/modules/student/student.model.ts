@@ -8,8 +8,6 @@ import {
   TUserName,
 } from "./student.interface";
 import validator from "validator";
-import config from "../..";
-import bcrypt from "bcrypt";
 
 const UserNameSchema = new Schema<TUserName>({
   firstName: {
@@ -98,10 +96,6 @@ const StudentSchema = new Schema<TStudent, StudentModels>({
     unique: true,
     ref: "User",
   },
-  password: {
-    type: String,
-    required: [true, "password must be required"],
-  },
   name: {
     type: UserNameSchema,
     required: [true, "Student's name is required"],
@@ -170,31 +164,7 @@ const StudentSchema = new Schema<TStudent, StudentModels>({
   },
 });
 
-// StudentSchema.methods.isUserExists = async function (id: string) {
-//   const existUser = await StudentModel.findOne({ id });
-//   return existUser;
-// };
-
-//middle ware
-StudentSchema.pre("save", async function (next) {
-  //hassing password and save into db
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user = this;
-  user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt));
-  next();
-});
-
-StudentSchema.post("save", function (doc, next) {
-  doc.password = "";
-  next();
-});
-
-// StudentSchema.post("save", function () {
-//   console.log(this, "post hook: will save data");
-// });
-
 StudentSchema.pre("find", function (next) {
-  // console.log(this);
   this.find({ isDeleted: { $ne: true } });
   next();
 });
