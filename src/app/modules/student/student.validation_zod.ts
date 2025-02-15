@@ -49,32 +49,37 @@ const LocalGuardianSchema = z.object({
 
 // Student validation schema
 const StudentSchemaWithZodValidation = z.object({
-  id: z.string().min(1, "Student ID is required"), // Add custom logic if necessary
-  password: z.string().max(20), // Add custom logic if necessary
-  name: UserNameSchema,
-  gender: z.enum(["male", "female"], {
-    errorMap: () => ({ message: "Gender must be 'male' or 'female'" }),
+  body: z.object({
+    password: z.string().max(20), // Add custom logic if necessary
+    student: z.object({
+      name: UserNameSchema,
+      gender: z.enum(["male", "female"], {
+        errorMap: () => ({ message: "Gender must be 'male' or 'female'" }),
+      }),
+      dateOfBirth: z.string().min(1, "Date of birth is required"), // Optional: You could add Date parsing or validation if needed
+      email: z
+        .string()
+        .min(1, "Email is required")
+        .email("Invalid email address"),
+      contactNumber: z
+        .string()
+        .min(1, "Contact number is required")
+        .regex(/^\+?[0-9]{10,15}$/, "Contact number must be valid"),
+      emergencyContactNumber: z
+        .string()
+        .min(1, "Emergency contact number is required")
+        .regex(/^\+?[0-9]{10,15}$/, "Emergency contact number must be valid"),
+      avatar: z.string().optional(), // Optional field for avatar
+      blood_groups: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], {
+        errorMap: () => ({ message: "Invalid blood group" }),
+      }),
+      presentAddress: z.string().min(1, "Present address is required"),
+      permanentAddress: z.string().min(1, "Permanent address is required"),
+      guardian: GuardianSchema,
+      localGuardian: LocalGuardianSchema,
+      profileImg: z.string().optional(), // Optional field for profile image
+    }),
   }),
-  dateOfBirth: z.string().min(1, "Date of birth is required"), // Optional: You could add Date parsing or validation if needed
-  email: z.string().min(1, "Email is required").email("Invalid email address"),
-  contactNumber: z
-    .string()
-    .min(1, "Contact number is required")
-    .regex(/^\+?[0-9]{10,15}$/, "Contact number must be valid"),
-  emergencyContactNumber: z
-    .string()
-    .min(1, "Emergency contact number is required")
-    .regex(/^\+?[0-9]{10,15}$/, "Emergency contact number must be valid"),
-  avatar: z.string().optional(), // Optional field for avatar
-  blood_groups: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], {
-    errorMap: () => ({ message: "Invalid blood group" }),
-  }),
-  presentAddress: z.string().min(1, "Present address is required"),
-  permanentAddress: z.string().min(1, "Permanent address is required"),
-  guardian: GuardianSchema,
-  localGuardian: LocalGuardianSchema,
-  profileImg: z.string().optional(), // Optional field for profile image
-  isDleted: z.boolean(),
 });
 
-export { StudentSchemaWithZodValidation };
+export const studentValidations = { StudentSchemaWithZodValidation };

@@ -1,10 +1,8 @@
-import { NextFunction, Request, Response } from "express";
+import { RequestHandler } from "express";
 import { userServices } from "./user.service";
-const createStudent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+// import sendRespnse from "../../utils/SendResponse";
+// import httpStatus from "http-status";
+const createStudent: RequestHandler = async (req, res, next) => {
   try {
     const { password, student: studentData } = req.body;
 
@@ -18,6 +16,12 @@ const createStudent = async (
       message: "Student created successfully",
       data: result,
     });
+    // sendRespnse(res, {
+    //   statusCode: httpStatus.ok,
+    //   success: true,
+    //   message: "Student created successfully",
+    //   data: result,
+    // });
   } catch (err) {
     next(err);
   }
