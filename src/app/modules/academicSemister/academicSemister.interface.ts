@@ -16,8 +16,8 @@ export type TAsemesterNameCode = "01" | "02" | "03";
 
 export type TacademicSemister = {
   name: TAsemesterName;
+  year: string;
   code: TAsemesterNameCode;
-  year: Date;
-  statMonth: TMonths;
+  startMonth: TMonths;
   endMonth: TMonths;
 };
