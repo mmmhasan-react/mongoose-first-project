@@ -36,6 +36,18 @@ const academicSemisterSchema = new Schema<TacademicSemister>(
   }
 );
 
+//check
+academicSemisterSchema.pre("save", async function (next) {
+  const isSemeisterExist = await academicSemisterModel.findOne({
+    year: this.year,
+    name: this.name,
+  });
+  if (isSemeisterExist) {
+    throw new Error("semister is exist");
+  }
+  next();
+});
+
 export const academicSemisterModel = model<TacademicSemister>(
   "academicSemister",
   academicSemisterSchema
